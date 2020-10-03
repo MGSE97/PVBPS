@@ -5,11 +5,16 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeyLogger", "KeyLogger\KeyLogger.csproj", "{36075A46-6AA3-4273-9185-46C1F34FFF57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Server", "Server\Server\Server.Server.csproj", "{11D85CE9-B9CA-4A79-AE22-43B6A7F47E57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Server", "Server\Server\Server.Server.csproj", "{11D85CE9-B9CA-4A79-AE22-43B6A7F47E57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Client", "Server\Client\Server.Client.csproj", "{FD07296F-1B1E-4E70-8772-704BA45CE94C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Client", "Server\Client\Server.Client.csproj", "{FD07296F-1B1E-4E70-8772-704BA45CE94C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Shared", "Server\Shared\Server.Shared.csproj", "{6FB4F1C6-29EB-415F-9A93-2B08BB8AC1F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.Shared", "Server\Shared\Server.Shared.csproj", "{6FB4F1C6-29EB-415F-9A93-2B08BB8AC1F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D225790-FF69-47EB-9C8C-61941AB19744}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
