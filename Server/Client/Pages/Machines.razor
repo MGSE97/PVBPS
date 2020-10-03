@@ -1,0 +1,66 @@
+@page "/machines"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Server.Shared
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h1>Key logger machines</h1>
+
+@if (exception != null)
+{
+    <p>@exception.Message</p>
+}
+
+@if (machines == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Name</th>
+                <th>Logs</th>
+                <th>Online</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var machine in machines)
+            {
+                <tr>
+                    <td>@machine.Key</td>
+                    <td>@machine.Name</td>
+                    <td>@machine.Logs</td>
+                    <td>@machine.Online</td>
+                    <td><a href="machine/@machine.Id" class="oi oi-info" aria-hidden="true"></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Server.Shared.Machine[] machines;
+    private Exception exception;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            machines = await Http.GetFromJsonAsync<Server.Shared.Machine[]>("Keylogger/ListMachines");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+        catch (Exception ex)
+        {
+            exception = ex;
+        }
+    }
+
+}
