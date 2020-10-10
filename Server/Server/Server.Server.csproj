@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>Server.Server-D5BE5093-9714-466D-9315-A3EE92D14393</UserSecretsId>
+    <ApplicationIcon>mgsilver.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
