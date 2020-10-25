@@ -20,8 +20,8 @@ if(Test-Path $folder -PathType Container)
     if((Test-Path $info) -eq 0)
     {
         Set-Content -Path $info -Encoding UTF8 -Value "Magic happened!
-        Donate to revive your files.
+Donate to revive your files.
 
-            Your friendly Wizard."
+    Your friendly Wizard."
     }
 }
