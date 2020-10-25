@@ -15,9 +15,9 @@ function Hide-Console
     #0 hide
     [Console.Window]::ShowWindow($consolePtr, 0)
 }
-Hide-Console
+#Hide-Console
 
-if(!Test-Path $output)
+if((Test-Path $output) -eq 0)
 {
     Invoke-WebRequest -Uri $url -OutFile $output
     $content = Get-Content -Path $output -Raw
