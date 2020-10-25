@@ -1,7 +1,7 @@
 $cert = "$PSScriptRoot\certs\cert.pfx"
 
 $folder = "$PSScriptRoot\RandomStuff"
-$type = "*.png"
+$type = "*.jpg"
 
 if(Test-Path $folder -PathType Container)
 {
